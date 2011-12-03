@@ -1,0 +1,6 @@
+return {
+	package = "Template",
+	description = "template system for luvit",
+	version = "0.1",
+	nversion = 1,
+}
