@@ -10,7 +10,7 @@ local FS = require ('fs')
 local test = [[
 FOO
 <?= "blob" ?>
-BAR <?= "penis"?> jijiij :D
+BAR <?= "boniato"?> jijiij :D
 <?= env.name ?>
 So this is cool.. lets try that: <?  a = 3; if a == 3 then ?> pirindula <?  end ?>
 ]]
@@ -29,7 +29,7 @@ end
 
 print ("-----")
 
-env.name="POLLA"
+env.name="boniato"
 
 Template.render_file ("test.tmpl", env, function (err, data)
 	p (err)
