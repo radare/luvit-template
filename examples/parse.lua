@@ -6,6 +6,7 @@
 local Template = require ("Template")
 local FS = require ('fs')
 
+
 local test = [[
 FOO
 <?= "blob" ?>
@@ -31,6 +32,6 @@ print ("-----")
 env.name="POLLA"
 
 Template.render_file ("test.tmpl", env, function (err, data)
---	p (err)
+	p (err)
 	print (data)
 end)

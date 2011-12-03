@@ -1,0 +1,19 @@
+<html>
+<head>
+	<title>Oops</title>
+</head>
+<body>
+<h2>
+	<center>Hello buddy!</center>
+</h2>
+
+<? if env.name then ?>
+Your name is: <?=env.name?>
+<? end ?>
+<br /> <br />
+<form method=post action="/">
+Enter your name: <input name="name" />
+<input type=submit />
+</form>
+</body>
+</html>

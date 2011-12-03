@@ -9,26 +9,28 @@ end
 
 local function _render(x,env)
 	local body = "local data = ''\n"
+	B = x
 	repeat
-		f = x:find ("<\\?")
+		f = x:find ("<%?")
 		if not f then break end
 		A = x:sub (0, f-1)
 		B = x:sub (f+2, -1)
 		body = append (body, A, "'")
-		g = B:find ("\\?>")
+		g = B:find ("%?>")
 		if g then
-			if (B:sub(0,1) == '=') then
-				body = append (body, B:sub (2, g-2), '')
+			if (B:sub (0, 1) == '=') then
+				body = append (body, B:sub (2, g-1), '')
 			else
-				body = body.. B:sub (0,g-2)
+				body = body.. B:sub (0,g-1).."\n"
 			end
 			B = B:sub (g+2, -1)
 		end
 		x = B
 	until f<0
 	if B then body = append (body, B, "'") end
-	local oldenv
+	--local oldenv-- TODO
 	_G.env = env -- make it global
+	-- print (body)
 	local a,b = loadstring (body.."\nreturn data")
 	if b then return true, b end
 	return false, a()
@@ -40,7 +42,7 @@ local function _render_file(x,e,y)
 			y (true, err.message)
 		else
 			local err, out = _render (data, e)
-			y (false, out)
+			y (err, out)
 		end
 	end)
 end
