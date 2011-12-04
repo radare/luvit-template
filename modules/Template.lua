@@ -3,11 +3,13 @@
 
 local FS = require ('fs')
 
+local Template = {}
+
 local function append(x,y,s)
 	return x.."data = data .. "..s..y:gsub("\n", "\\n")..s.."\n"
 end
 
-local function _render(x,env)
+function Template.render(x,env)
 	local body = "local data = ''\n"
 	B = x
 	repeat
@@ -18,7 +20,13 @@ local function _render(x,env)
 		body = append (body, A, "'")
 		g = B:find ("%?>")
 		if g then
-			if (B:sub (0, 1) == '=') then
+			local ch = B:sub (0, 1)
+			if ch == '=' then
+				local str = B:sub (2, g-1)
+					:gsub ("<", "&lt;")
+					:gsub (">", "&gt;")
+				body = append (body, str, '')
+			elseif ch == '-' then
 				body = append (body, B:sub (2, g-1), '')
 			else
 				body = body.. B:sub (0,g-1).."\n"
@@ -36,23 +44,24 @@ local function _render(x,env)
 	return false, a()
 end
 
-local function _render_file(x,e,y)
+function Template.render_file(x,e,y)
 	FS.read_file (x, function (err, data)
 		if (err) then
 			y (true, err.message)
 		else
-			local err, out = _render (data, e)
+			local err, out = Template.render (data, e)
 			y (err, out)
 		end
 	end)
 end
 
--- asyncrunous read
-local function _compiler(f, x)
+-- asynchronous read
+function Template.compiler(e,f)
 	-- TODO
 	local obj = {
-		fd = f, 
-		data = x,
+		fd = f,
+		env = e,
+		data = "",
 		parse = function ()
 			print "parsing.."
 		end
@@ -60,15 +69,12 @@ local function _compiler(f, x)
 	return obj
 end
 
-local function _pipe(i, o)
+-- local tc = Template.compiler (
+
+function Template.pipe(i, o)
 	-- TODO
 	-- read from in
 	-- parse and write to out
 end
 
-return {
-	compiler = _compiler,
-	render_file = _render_file,
-	pipe = _pipe,
-	render = _render,
-}
+return Template

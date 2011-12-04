@@ -23,9 +23,9 @@ HTTP.create_server("0.0.0.0", 8080, function (req, res)
 		query={}
 
 		local x = QueryString.parse (body)
-		env.name = x['name']
-		body = "Thanks for watching!<br/><br />length = " .. body .. "\n"
-		body = body .."YOUR NAME IS : "..x['name']
+		env.name = x.name
+		body = "Thanks for watching!<br/><br />length = " .. #x.name .. "<br /><br />\n"
+		body = body .."YOUR NAME IS : "..x.name.."<br /><br />"
 		body = body .."<a href=/>back</a>"
 		p("on_end", {total_len=#body})
 		res:write_head(200, {
