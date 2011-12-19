@@ -3,20 +3,21 @@
 local Url = require('url')
 local HTTP = require("http")
 local Utils = require("utils")
-local Template = require("Template")
+local Template = require("template")
 local QueryString = require('querystring')
 
 local env = {
+	-- XXX
 	name = "jeje"
 }
 
 HTTP.create_server("0.0.0.0", 8080, function (req, res)
-	p("on_request", req)
+	p ("on_request", req)
 	local chunks = ""
-	req:on('data', function (chunk, len)
+	req:on ('data', function (chunk, len)
 		chunks = chunks .. chunk
 	end)
-	req:on('end', function ()
+	req:on ('end', function ()
 		--local body = Table.concat(chunks, "")
 		local body=chunks
 		if body == "" then return end
@@ -54,5 +55,4 @@ HTTP.create_server("0.0.0.0", 8080, function (req, res)
 end
 end)
 
-print("Server listening at http://localhost:8080/")
-
+print ("Server listening at http://localhost:8080/")

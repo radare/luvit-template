@@ -3,7 +3,7 @@
 -- template system for luvit --
 --
 
-local Template = require ("Template")
+local Template = require ("template")
 local FS = require ('fs')
 
 if 1 == 0 then
